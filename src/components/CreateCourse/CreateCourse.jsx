@@ -18,7 +18,7 @@ export const CreateCourse = ({
 		description: '',
 		creationDate: '',
 		duration: 0,
-		authors: '',
+		authors: [],
 	});
 
 	const handleAddAuthor = (event) => {
@@ -53,17 +53,14 @@ export const CreateCourse = ({
 		}
 	};
 
-	const handleCreateCourse = (event) => {
-		debugger;
+	const handleCreateCourse = () => {
 		setCourses([
 			...courses,
 			{
 				...newCourse,
 				id: uuidv4(),
 				creationDate: new Date().toLocaleDateString(),
-				authors: courseAuthors
-					.map((courseAuthor) => courseAuthor.name)
-					.join(', '),
+				authors: courseAuthors,
 			},
 		]);
 	};
@@ -89,9 +86,9 @@ export const CreateCourse = ({
 				</div>
 				<div className='details'>
 					<button
-						onClick={(event) => {
+						onClick={() => {
 							setCreateCourseIsShown(false);
-							handleCreateCourse(event);
+							handleCreateCourse();
 						}}
 					>
 						Create course
