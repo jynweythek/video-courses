@@ -1,30 +1,27 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-export const CourseCard = ({
-	title,
-	description,
-	authors,
-	duration,
-	creationDate,
-}) => {
+export const CourseCard = (course) => {
 	return (
 		<div className='container card-wrapper'>
 			<div className='main'>
-				<h3>{title}</h3>
-				<p className='article--description'>{description}</p>
+				<h3>{course.title}</h3>
+				<p className='article--description'>{course.description}</p>
 			</div>
 			<div className='details'>
 				<p className='details--authors'>
-					<strong>Authors:</strong> {authors}
+					<strong>Authors:</strong> {course.authors}
 				</p>
 				<p>
 					<strong>Duration: </strong>
-					{duration} hours
+					{course.duration} hours
 				</p>
 				<p>
-					<strong>Created:</strong> {creationDate}
+					<strong>Created:</strong> {course.creationDate}
 				</p>
-				<button>Show course</button>
+				<Link to={{ pathname: `/courses/${course.id}`, state: course }}>
+					Show course
+				</Link>
 			</div>
 		</div>
 	);
