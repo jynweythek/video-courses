@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import { API } from '../../config';
 import { useIsMount } from '../../hooks/useIsMount';
+import { Button } from '../Button';
 
 export const Registration = () => {
 	const [credentials, setCredentials] = useState({
@@ -56,7 +57,7 @@ export const Registration = () => {
 						setCredentials({ ...credentials, password: e.target.value })
 					}
 				/>
-				<button type='submit'>Registration</button>
+				<Button type='submit' text='Registration' />
 			</form>
 			<p>
 				If you have no account you can <Link to='/login'>login</Link>

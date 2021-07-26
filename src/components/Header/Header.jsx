@@ -1,6 +1,6 @@
 import React from 'react';
 import { Logo } from '../Logo/Logo';
-import { Button } from '../Button/Button';
+import { Button } from '../Button';
 import { useHistory } from 'react-router-dom';
 
 export const Header = () => {

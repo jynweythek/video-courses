@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Button } from '../Button/Button';
+import { Button } from '../Button';
 import { formatDuration } from '../../utils/formatDuration';
 import axios from 'axios';
 import { API } from '../../config';
