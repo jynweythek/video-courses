@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CourseCard } from '../CourseCard/CourseCard';
-import { mockedAuthorsList } from '../../mocks/mockedAuthorsList';
 import { formatDuration } from '../../utils/formatDuration';
-
-const getAuthors = (authors) =>
-	mockedAuthorsList
-		.filter((mockedAuthor) => authors.includes(mockedAuthor.id))
-		.map((author) => author.name)
-		.join(', ');
-
-const formatDate = (date) => date.replace(/\//g, '.');
+import axios from 'axios';
+import { API } from '../../config';
+import { formatDate } from '../../utils/formatDate';
 
 export const Courses = ({ courses }) => {
+	const [authors, setAuthors] = useState([]);
+
+	useEffect(() => {
+		axios
+			.get(`${API}/authors/all`)
+			.then((response) =>
+				setAuthors(
+					response.data.result.map((author) => author.name.concat(', '))
+				)
+			);
+	}, []);
+
 	const renderCourseCard = () =>
-		courses.map((course, i) => {
+		courses.map((course) => {
 			return (
 				<CourseCard
+					id={course.id}
 					title={course.title}
 					description={course.description}
-					authors={getAuthors(course.authors)}
+					authors={authors}
 					creationDate={formatDate(course.creationDate)}
 					duration={formatDuration(course.duration)}
 					key={course.id}

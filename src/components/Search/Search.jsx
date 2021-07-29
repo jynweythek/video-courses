@@ -1,17 +1,20 @@
 import React from 'react';
 import { Input } from '../Input/Input';
-import { mockedCoursesList } from '../../mocks/mockedCourcesList';
 
 export const Search = ({ courses, setCourses }) => {
+	const searchByTerm = (event, course) =>
+		(event.target[0].value.length > 0 &&
+			course.title
+				.toLowerCase()
+				.includes(event.target[0].value.trim().toLowerCase())) ||
+		(event.target[0].value.length > 0 &&
+			course.id
+				.toLowerCase()
+				.includes(event.target[0].value.trim().toLowerCase()));
+
 	const searchHandler = (event, setCourses) => {
 		event.preventDefault();
-		return setCourses(
-			mockedCoursesList.filter((mockedCourse) =>
-				mockedCourse.title
-					.toLowerCase()
-					.includes(event.target[0].value.trim().toLowerCase())
-			)
-		);
+		return setCourses(courses.filter((course) => searchByTerm(event, course)));
 	};
 
 	return (

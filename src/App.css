@@ -3,6 +3,7 @@
 }
 
 .container {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -88,4 +89,52 @@
 
 .author-wrapper p {
     margin: 5px 0;
+}
+
+.login,
+.registration {
+    flex-direction: column;
+    align-items: center;
+}
+
+.login form,
+.registration form {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+.login form *,
+.registration form * {
+    margin-bottom: 5px;
+}
+
+.login form button,
+.registration form button {
+    width: 75%;
+    margin: 15px auto;
+}
+
+.course-info button {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    white-space: nowrap;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.course-info button:hover {
+    color: rgb(85, 26, 139);
+}
+
+.course-info .main {
+    padding-top: 30px;
+}
+
+.course-info .main p {
+    margin-bottom: 30px;
 }

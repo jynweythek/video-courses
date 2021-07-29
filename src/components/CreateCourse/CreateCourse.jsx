@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Button } from '../Button/Button';
-import { mockedAuthorsList } from '../../mocks/mockedAuthorsList';
+import { Button } from '../Button';
 import { formatDuration } from '../../utils/formatDuration';
+import axios from 'axios';
+import { API } from '../../config';
+import { useHistory } from 'react-router-dom';
 
-export const CreateCourse = ({
-	courses,
-	setCourses,
-	setCreateCourseIsShown,
-}) => {
-	const [mockedAuthors, setMockedAuthors] = useState(mockedAuthorsList);
+export const CreateCourse = ({ courses, setCourses }) => {
+	const [fetchedAuthors, setFetchedAuthors] = useState(
+		courses.map((course) => course.authors.map((author) => author.name))
+	);
 	const [courseAuthors, setCourseAuthors] = useState([]);
 	const [duration, setDuration] = useState(0);
 	const [newCourse, setNewCourse] = useState({
@@ -20,11 +20,18 @@ export const CreateCourse = ({
 		duration: 0,
 		authors: [],
 	});
+	const history = useHistory();
+
+	useEffect(() => {
+		axios
+			.get(`${API}/authors/all`)
+			.then((response) => setFetchedAuthors(response.data.result));
+	}, []);
 
 	const handleAddAuthor = (event) => {
 		event.preventDefault();
-		setMockedAuthors([
-			...mockedAuthors,
+		setFetchedAuthors([
+			...fetchedAuthors,
 			{ id: uuidv4(), name: event.target[0].value },
 		]);
 		event.target[0].value = '';
@@ -32,8 +39,8 @@ export const CreateCourse = ({
 
 	const handleAddCourseAuthor = (author, event) => {
 		event.preventDefault();
-		setMockedAuthors(
-			mockedAuthors.filter((mockedAuthor) => mockedAuthor.id !== author.id)
+		setFetchedAuthors(
+			fetchedAuthors.filter((fetchedAuthor) => fetchedAuthor.id !== author.id)
 		);
 		setCourseAuthors([...courseAuthors, author]);
 	};
@@ -43,7 +50,7 @@ export const CreateCourse = ({
 		setCourseAuthors(
 			courseAuthors.filter((courseAuthor) => courseAuthor.id !== author.id)
 		);
-		setMockedAuthors([...mockedAuthors, author]);
+		setFetchedAuthors([...fetchedAuthors, author]);
 	};
 
 	const handleDuration = (event) => {
@@ -63,6 +70,7 @@ export const CreateCourse = ({
 				authors: courseAuthors,
 			},
 		]);
+		history.push('/courses');
 	};
 
 	const onChangeTitle = (e) => {
@@ -81,23 +89,16 @@ export const CreateCourse = ({
 					<input
 						type='text'
 						placeholder='Enter title...'
-						onChange={(e) => onChangeTitle(e)}
+						onChange={onChangeTitle}
 					/>
 				</div>
 				<div className='details'>
-					<button
-						onClick={() => {
-							setCreateCourseIsShown(false);
-							handleCreateCourse();
-						}}
-					>
-						Create course
-					</button>
+					<button onClick={handleCreateCourse}>Create course</button>
 				</div>
 			</div>
 			<div className='main create-course__description'>
 				<h3>Description</h3>
-				<textarea rows='5' onChange={(e) => onChangeDescription(e)} />
+				<textarea rows='5' onChange={onChangeDescription} />
 			</div>
 			<div className='add-authors container'>
 				<div className='main'>
@@ -126,17 +127,17 @@ export const CreateCourse = ({
 				<div className='details'>
 					<div className='authors'>
 						<h3>Authors</h3>
-						{mockedAuthors.length > 0
-							? mockedAuthors.map((mockedAuthor) => {
+						{fetchedAuthors.length > 0
+							? fetchedAuthors.map((fetchedAuthor) => {
 									return (
-										<div className='author-wrapper' key={mockedAuthor.id}>
+										<div className='author-wrapper' key={fetchedAuthor.id}>
 											<form
 												onSubmit={(event) =>
-													handleAddCourseAuthor(mockedAuthor, event)
+													handleAddCourseAuthor(fetchedAuthor, event)
 												}
 											>
-												<p>{mockedAuthor.name}</p>
-												<Button text={'Add author'} author={mockedAuthor} />
+												<p>{fetchedAuthor.name}</p>
+												<Button text={'Add author'} author={fetchedAuthor} />
 											</form>
 										</div>
 									);
