@@ -4,6 +4,7 @@ import axios from 'axios';
 import { API } from '../../config';
 import { useIsMount } from '../../hooks/useIsMount';
 import { Button } from '../Button';
+import { login } from '../../store/user/actionCreators';
 
 export const Login = () => {
 	const [credentials, setCredentials] = useState({
@@ -19,7 +20,9 @@ export const Login = () => {
 		if (!isMount) {
 			axios
 				.post(`${API}/login`, credentials)
-				.then(() => history.push('/'))
+				// .then(({ data }) => localStorage.setItem('coursesToken', data.result))
+				.then(({ data }) => login())
+				.then(() => history.push('/courses'))
 				.catch((error) => console.log(error));
 		}
 	}, [submitted]);
