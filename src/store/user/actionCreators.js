@@ -6,9 +6,14 @@ export function register() {
 	};
 }
 
-export function login() {
+export function login(payload) {
 	return {
 		type: LOGIN,
+		payload: {
+			name: payload.user.name,
+			email: payload.user.email,
+			token: payload.result,
+		},
 	};
 }
 

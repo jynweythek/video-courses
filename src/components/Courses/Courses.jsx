@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { CourseCard } from '../CourseCard/CourseCard';
-import { formatDuration } from '../../utils/formatDuration';
 import axios from 'axios';
 import { API } from '../../config';
+import { formatDuration } from '../../utils/formatDuration';
 import { formatDate } from '../../utils/formatDate';
 
 export const Courses = ({ courses }) => {
@@ -19,7 +19,7 @@ export const Courses = ({ courses }) => {
 	}, []);
 
 	const renderCourseCard = () =>
-		courses.map((course) => {
+		courses.courses.map((course) => {
 			return (
 				<CourseCard
 					id={course.id}

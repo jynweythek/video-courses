@@ -1,24 +1,29 @@
 import './App.css';
+import { Link, Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Header } from './components/Header/Header';
 import { Courses } from './components/Courses/Courses';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Registration } from './components/Registration/Registration';
+import { Login } from './components/Login/Login';
 import { CreateCourse } from './components/CreateCourse/CreateCourse';
 import { Search } from './components/Search/Search';
-import { Login } from './components/Login/Login';
-import { Link, Route, Switch } from 'react-router-dom';
-import { Registration } from './components/Registration/Registration';
 import { CourseInfo } from './components/CourseInfo/CourseInfo';
-import axios from 'axios';
+import { getCourses } from './store/courses/actionCreators';
 import { API } from './config';
 
 function App() {
 	const [courses, setCourses] = useState([]);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		axios
 			.get(`${API}/courses/all`)
-			.then((response) => setCourses(response.data.result));
+			.then(({ data }) => dispatch(getCourses(data.result)));
 	}, []);
+
+	const state = useSelector((state) => state);
 
 	return (
 		<div className='App'>
@@ -30,7 +35,7 @@ function App() {
 						<div className='add-course-wrapper container'>
 							<Link to='/courses/add'>Add New Course</Link>
 						</div>
-						<Courses courses={courses} />
+						<Courses courses={state['courses']} />
 					</>
 				</Route>
 				<Route path='/login'>

@@ -1,16 +1,16 @@
 import { LOGIN, LOGOUT, REGISTER } from './actionTypes';
 
-export const initialState = {
-	isAuth: Boolean,
-	name: String,
-	email: String,
-	token: String,
+const initialState = {
+	isAuth: false,
+	name: '',
+	email: '',
+	token: '',
 };
 
 export function userReducer(state = initialState, action) {
 	switch (action.type) {
 		case REGISTER:
-			return { ...state, value: action.payload };
+			return { ...state, isAuth: false, name: '', email: '', token: '' };
 		case LOGIN:
 			return {
 				...state,

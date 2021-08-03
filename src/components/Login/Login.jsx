@@ -5,6 +5,7 @@ import { API } from '../../config';
 import { useIsMount } from '../../hooks/useIsMount';
 import { Button } from '../Button';
 import { login } from '../../store/user/actionCreators';
+import { useDispatch } from 'react-redux';
 
 export const Login = () => {
 	const [credentials, setCredentials] = useState({
@@ -15,13 +16,16 @@ export const Login = () => {
 	const [submitted, setSubmitted] = useState(false);
 	const history = useHistory();
 	const isMount = useIsMount();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (!isMount) {
 			axios
 				.post(`${API}/login`, credentials)
-				// .then(({ data }) => localStorage.setItem('coursesToken', data.result))
-				.then(({ data }) => login())
+				.then(({ data }) => {
+					localStorage.setItem('coursesToken', data.result);
+					dispatch(login(data));
+				})
 				.then(() => history.push('/courses'))
 				.catch((error) => console.log(error));
 		}
