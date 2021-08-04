@@ -16,7 +16,7 @@ export function coursesReducer(state = initialState, action) {
 		case SAVE_NEW_COURSE:
 			return {
 				...state,
-				...action.payload,
+				courses: [...state.courses, action.payload],
 			};
 		case DELETE_COURSE:
 			return { ...state };
