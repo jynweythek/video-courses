@@ -1,10 +1,9 @@
-import './App.css';
+import { useEffect, useState } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { Header } from './components/Header/Header';
 import { Courses } from './components/Courses/Courses';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Registration } from './components/Registration/Registration';
 import { Login } from './components/Login/Login';
 import { CreateCourse } from './components/CreateCourse/CreateCourse';
@@ -12,6 +11,7 @@ import { Search } from './components/Search/Search';
 import { CourseInfo } from './components/CourseInfo/CourseInfo';
 import { getCourses } from './store/courses/actionCreators';
 import { API } from './config';
+import './App.css';
 
 function App() {
 	const [courses, setCourses] = useState([]);

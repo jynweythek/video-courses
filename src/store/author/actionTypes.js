@@ -1,1 +1,3 @@
-export const FETCH_AUTHORS = 'FETCH_AUTHORS';
+export const GET_AUTHORS = 'GET_AUTHORS';
+export const SAVE_NEW_AUTHOR = 'SAVE_NEW_AUTHOR';
+export const DELETE_AUTHOR = 'DELETE_AUTHOR';

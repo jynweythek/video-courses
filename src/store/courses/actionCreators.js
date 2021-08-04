@@ -29,5 +29,6 @@ export function deleteCourse(course) {
 export function updateCourse(course) {
 	return {
 		type: UPDATE_COURSE,
+		payload: course,
 	};
 }
