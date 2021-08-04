@@ -22,6 +22,7 @@ export function saveNewCourse(course) {
 export function deleteCourse(course) {
 	return {
 		type: DELETE_COURSE,
+		payload: course,
 	};
 }
 
