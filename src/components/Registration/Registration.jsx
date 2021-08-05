@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
-import { API } from '../../config';
 import { useIsMount } from '../../hooks/useIsMount';
 import { Button } from '../Button';
+import { ApiCall } from '../../utils/apiCall';
 
 export const Registration = () => {
 	const [credentials, setCredentials] = useState({
@@ -18,9 +17,7 @@ export const Registration = () => {
 
 	useEffect(() => {
 		if (!isMount) {
-			axios
-				.post(`${API}/register`, credentials)
-				.then(() => history.push('/login'));
+			ApiCall.post(`/register`, credentials).then(() => history.push('/login'));
 		}
 	}, [submitted]);
 

@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from '../Button';
 import { formatDuration } from '../../utils/formatDuration';
-import axios from 'axios';
-import { API } from '../../config';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { saveNewCourse } from '../../store/courses/actionCreators';
+import { ApiCall } from '../../utils/apiCall';
 
 export const CreateCourse = ({ courses, setCourses }) => {
 	const [fetchedAuthors, setFetchedAuthors] = useState(
@@ -26,9 +25,7 @@ export const CreateCourse = ({ courses, setCourses }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		axios
-			.get(`${API}/authors/all`)
-			.then((response) => setFetchedAuthors(response.data.result));
+		ApiCall.get(`/authors/all`).then(({ result }) => setFetchedAuthors(result));
 	}, []);
 
 	const handleAddAuthor = (event) => {

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { Header } from './components/Header/Header';
 import { Courses } from './components/Courses/Courses';
 import { Registration } from './components/Registration/Registration';
@@ -10,7 +9,7 @@ import { CreateCourse } from './components/CreateCourse/CreateCourse';
 import { Search } from './components/Search/Search';
 import { CourseInfo } from './components/CourseInfo/CourseInfo';
 import { getCourses } from './store/courses/actionCreators';
-import { API } from './config';
+import { ApiCall } from './utils/apiCall';
 import './App.css';
 
 function App() {
@@ -18,9 +17,9 @@ function App() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		axios
-			.get(`${API}/courses/all`)
-			.then(({ data }) => dispatch(getCourses(data.result)));
+		ApiCall.get(`/courses/all`).then(({ result }) =>
+			dispatch(getCourses(result))
+		);
 	}, []);
 
 	const state = useSelector((state) => state);
