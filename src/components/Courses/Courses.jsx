@@ -1,31 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CourseCard } from '../CourseCard/CourseCard';
 import { formatDuration } from '../../utils/formatDuration';
-import axios from 'axios';
-import { API } from '../../config';
 import { formatDate } from '../../utils/formatDate';
+import { getAuthors } from '../../store/author/actionCreators';
+import { ApiCall } from '../../utils/apiCall';
 
 export const Courses = ({ courses }) => {
-	const [authors, setAuthors] = useState([]);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		axios
-			.get(`${API}/authors/all`)
-			.then((response) =>
-				setAuthors(
-					response.data.result.map((author) => author.name.concat(', '))
-				)
-			);
+		ApiCall.get(`/authors/all`).then(({ result }) =>
+			dispatch(getAuthors(result))
+		);
 	}, []);
 
+	const state = useSelector((state) => state);
+
 	const renderCourseCard = () =>
-		courses.map((course) => {
+		courses.courses.map((course) => {
 			return (
 				<CourseCard
 					id={course.id}
 					title={course.title}
 					description={course.description}
-					authors={authors}
+					authors={state['authors']}
 					creationDate={formatDate(course.creationDate)}
 					duration={formatDuration(course.duration)}
 					key={course.id}

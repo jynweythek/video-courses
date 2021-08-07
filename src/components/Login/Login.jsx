@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import axios from 'axios';
-import { API } from '../../config';
+import { useDispatch } from 'react-redux';
 import { useIsMount } from '../../hooks/useIsMount';
 import { Button } from '../Button';
+import { login } from '../../store/user/actionCreators';
+import { ApiCall } from '../../utils/apiCall';
 
 export const Login = () => {
 	const [credentials, setCredentials] = useState({
@@ -14,12 +15,16 @@ export const Login = () => {
 	const [submitted, setSubmitted] = useState(false);
 	const history = useHistory();
 	const isMount = useIsMount();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (!isMount) {
-			axios
-				.post(`${API}/login`, credentials)
-				.then(() => history.push('/'))
+			ApiCall.post(`/login`, credentials)
+				.then((data) => {
+					localStorage.setItem('coursesToken', data.result);
+					dispatch(login(data));
+				})
+				.then(() => history.push('/courses'))
 				.catch((error) => console.log(error));
 		}
 	}, [submitted]);
