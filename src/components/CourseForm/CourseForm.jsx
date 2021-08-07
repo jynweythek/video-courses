@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { saveNewCourse } from '../../store/courses/actionCreators';
 import { ApiCall } from '../../utils/apiCall';
 
-export const CreateCourse = ({ courses, setCourses }) => {
+export const CourseForm = ({ courses, setCourses }) => {
 	const [fetchedAuthors, setFetchedAuthors] = useState(
 		courses.map((course) => course.authors.map((author) => author.name))
 	);

@@ -5,7 +5,7 @@ import { Header } from './components/Header/Header';
 import { Courses } from './components/Courses/Courses';
 import { Registration } from './components/Registration/Registration';
 import { Login } from './components/Login/Login';
-import { CreateCourse } from './components/CreateCourse/CreateCourse';
+import { CourseForm } from './components/CourseForm/CourseForm';
 import { Search } from './components/Search/Search';
 import { CourseInfo } from './components/CourseInfo/CourseInfo';
 import { getCourses } from './store/courses/actionCreators';
@@ -44,7 +44,7 @@ function App() {
 					<Registration />
 				</Route>
 				<Route exact path='/courses/add'>
-					<CreateCourse courses={courses} setCourses={setCourses} />
+					<CourseForm courses={courses} setCourses={setCourses} />
 				</Route>
 				<Route path='/courses/:id'>
 					<CourseInfo />
