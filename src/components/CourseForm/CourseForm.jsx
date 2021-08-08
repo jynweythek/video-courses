@@ -4,15 +4,19 @@ import { Button } from '../Button';
 import { formatDuration } from '../../utils/formatDuration';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { saveNewCourse } from '../../store/courses/actionCreators';
+import { saveNewCourse } from '../../store/courses/actions';
 import { ApiCall } from '../../utils/apiCall';
 
 export const CourseForm = ({ courses, setCourses }) => {
 	const [fetchedAuthors, setFetchedAuthors] = useState(
 		courses.map((course) => course.authors.map((author) => author.name))
 	);
-	const [courseAuthors, setCourseAuthors] = useState([]);
-	const [duration, setDuration] = useState(0);
+	const [courseAuthors, setCourseAuthors] = useState([
+		courses.map((course) => course.authors),
+	]);
+	const [duration, setDuration] = useState(
+		courses.map((course) => formatDuration(course.duration))
+	);
 	const [newCourse, setNewCourse] = useState({
 		id: '',
 		title: '',
@@ -64,7 +68,7 @@ export const CourseForm = ({ courses, setCourses }) => {
 		dispatch(
 			saveNewCourse({
 				...newCourse,
-				id: uuidv4(),
+				id: courses.length ? courses.map((course) => course.id) : uuidv4(),
 				creationDate: new Date().toLocaleDateString(),
 				authors: courseAuthors,
 			})
@@ -89,15 +93,31 @@ export const CourseForm = ({ courses, setCourses }) => {
 						type='text'
 						placeholder='Enter title...'
 						onChange={onChangeTitle}
+						value={
+							courses.length
+								? courses.map((course) => course.title)
+								: newCourse.title
+						}
 					/>
 				</div>
 				<div className='details'>
-					<button onClick={handleCreateCourse}>Create course</button>
+					<Button
+						onClick={handleCreateCourse}
+						text={courses.length ? 'Update course' : 'Create course'}
+					/>
 				</div>
 			</div>
 			<div className='main create-course__description'>
 				<h3>Description</h3>
-				<textarea rows='5' onChange={onChangeDescription} />
+				<textarea
+					rows='5'
+					onChange={onChangeDescription}
+					value={
+						courses.length
+							? courses.map((course) => course.description)
+							: newCourse.description
+					}
+				/>
 			</div>
 			<div className='add-authors container'>
 				<div className='main'>
@@ -118,6 +138,7 @@ export const CourseForm = ({ courses, setCourses }) => {
 								placeholder={'Enter duration in minutes...'}
 								pattern='[0-9]'
 								onChange={(event) => handleDuration(event)}
+								value={courses.length ? duration : newCourse.duration}
 							/>
 						</form>
 						<p>Duration: {duration} hours</p>

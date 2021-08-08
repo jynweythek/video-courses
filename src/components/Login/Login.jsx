@@ -3,8 +3,10 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useIsMount } from '../../hooks/useIsMount';
 import { Button } from '../Button';
-import { login } from '../../store/user/actionCreators';
+import { login } from '../../store/user/actions';
 import { ApiCall } from '../../utils/apiCall';
+import { ADMIN_EMAIL, ADMIN_PASSWORD } from '../../config';
+import { thunkUser } from '../../store/user/thunk';
 
 export const Login = () => {
 	const [credentials, setCredentials] = useState({
@@ -12,6 +14,7 @@ export const Login = () => {
 		email: '',
 		password: '',
 	});
+	const [isAdmin, setIsAdmin] = useState(false);
 	const [submitted, setSubmitted] = useState(false);
 	const history = useHistory();
 	const isMount = useIsMount();
@@ -19,11 +22,13 @@ export const Login = () => {
 
 	useEffect(() => {
 		if (!isMount) {
-			ApiCall.post(`/login`, credentials)
-				.then((data) => {
-					localStorage.setItem('coursesToken', data.result);
-					dispatch(login(data));
-				})
+			dispatch(thunkUser(credentials, isAdmin))
+				// ApiCall.post(`/login`, credentials)
+				// 	.then((data) => {
+				// 		localStorage.setItem('coursesToken', data.result);
+				// 		localStorage.setItem('isAdmin', isAdmin.toString());
+				// 		dispatch(login(data, isAdmin));
+				// 	})
 				.then(() => history.push('/courses'))
 				.catch((error) => console.log(error));
 		}
@@ -32,6 +37,12 @@ export const Login = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setSubmitted(true);
+		if (
+			credentials.email === ADMIN_EMAIL &&
+			credentials.password === ADMIN_PASSWORD
+		) {
+			setIsAdmin(true);
+		}
 	};
 
 	return (

@@ -1,12 +1,12 @@
 import { LOGIN, LOGOUT, REGISTER } from './actionTypes';
 
-export function register() {
+export const register = () => {
 	return {
 		type: REGISTER,
 	};
-}
+};
 
-export function login(payload) {
+export const login = (payload, isAdmin) => {
 	return {
 		type: LOGIN,
 		payload: {
@@ -14,11 +14,12 @@ export function login(payload) {
 			email: payload.user.email,
 			token: payload.result,
 		},
+		isAdmin,
 	};
-}
+};
 
-export function logout() {
+export const logout = () => {
 	return {
 		type: LOGOUT,
 	};
-}
+};

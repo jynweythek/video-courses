@@ -1,22 +1,22 @@
 import { DELETE_AUTHOR, GET_AUTHORS, SAVE_NEW_AUTHOR } from './actionTypes';
 
-export function getAuthors(result) {
+export const getAuthors = (result) => {
 	return {
 		type: GET_AUTHORS,
 		payload: result.map((author) => author),
 	};
-}
+};
 
-export function saveNewAuthor(author) {
+export const saveNewAuthor = (author) => {
 	return {
 		type: SAVE_NEW_AUTHOR,
 		payload: author,
 	};
-}
+};
 
-export function deleteAuthor(author) {
+export const deleteAuthor = (author) => {
 	return {
 		type: DELETE_AUTHOR,
 		payload: author,
 	};
-}
+};

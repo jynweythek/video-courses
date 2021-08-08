@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CourseCard } from '../CourseCard/CourseCard';
 import { formatDuration } from '../../utils/formatDuration';
 import { formatDate } from '../../utils/formatDate';
-import { getAuthors } from '../../store/author/actionCreators';
+import { getAuthors } from '../../store/author/actions';
 import { ApiCall } from '../../utils/apiCall';
 
 export const Courses = ({ courses }) => {

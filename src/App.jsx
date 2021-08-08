@@ -8,7 +8,9 @@ import { Login } from './components/Login/Login';
 import { CourseForm } from './components/CourseForm/CourseForm';
 import { Search } from './components/Search/Search';
 import { CourseInfo } from './components/CourseInfo/CourseInfo';
-import { getCourses } from './store/courses/actionCreators';
+import { UpdateCourse } from './components/UpdateCourse/UpdateCourse';
+import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
+import { getCourses } from './store/courses/actions';
 import { ApiCall } from './utils/apiCall';
 import './App.css';
 
@@ -52,6 +54,12 @@ function App() {
 				<Route path='/courses'>
 					<Courses />
 				</Route>
+				<PrivateRoute
+					exact
+					path='/update/:id'
+					component={UpdateCourse}
+					isAdmin={state['user']['isAdmin']}
+				/>
 			</Switch>
 		</div>
 	);

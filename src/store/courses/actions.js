@@ -5,30 +5,30 @@ import {
 	UPDATE_COURSE,
 } from './actionTypes';
 
-export function getCourses(result) {
+export const getCourses = (result) => {
 	return {
 		type: GET_COURSES,
 		payload: result.map((course) => course),
 	};
-}
+};
 
-export function saveNewCourse(course) {
+export const saveNewCourse = (course) => {
 	return {
 		type: SAVE_NEW_COURSE,
 		payload: course,
 	};
-}
+};
 
-export function deleteCourse(course) {
+export const deleteCourse = (course) => {
 	return {
 		type: DELETE_COURSE,
 		payload: course,
 	};
-}
+};
 
-export function updateCourse(course) {
+export const updateCourse = (course) => {
 	return {
 		type: UPDATE_COURSE,
 		payload: course,
 	};
-}
+};
