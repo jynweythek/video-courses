@@ -3,9 +3,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { Button } from '../Button';
 import { formatDuration } from '../../utils/formatDuration';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveNewCourse } from '../../store/courses/actions';
-import { ApiCall } from '../../utils/apiCall';
+import { authorsThunk } from '../../store/author/thunk';
 
 export const CourseForm = ({ courses, setCourses }) => {
 	const [fetchedAuthors, setFetchedAuthors] = useState(
@@ -27,9 +27,11 @@ export const CourseForm = ({ courses, setCourses }) => {
 	});
 	const history = useHistory();
 	const dispatch = useDispatch();
+	const state = useSelector((state) => state);
 
 	useEffect(() => {
-		ApiCall.get(`/authors/all`).then(({ result }) => setFetchedAuthors(result));
+		dispatch(authorsThunk());
+		setFetchedAuthors(state['authors']['authors']);
 	}, []);
 
 	const handleAddAuthor = (event) => {

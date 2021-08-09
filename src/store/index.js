@@ -1,4 +1,4 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { userReducer } from './user/reducer';
 import { coursesReducer } from './courses/reducer';
@@ -10,8 +10,9 @@ const rootReducer = combineReducers({
 	authors: authorsReducer,
 });
 
-export const store = createStore(
-	rootReducer,
+const composedEnhancer = compose(
 	applyMiddleware(thunk),
 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+
+export const store = createStore(rootReducer, composedEnhancer);

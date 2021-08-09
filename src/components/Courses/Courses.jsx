@@ -3,16 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CourseCard } from '../CourseCard/CourseCard';
 import { formatDuration } from '../../utils/formatDuration';
 import { formatDate } from '../../utils/formatDate';
-import { getAuthors } from '../../store/author/actions';
-import { ApiCall } from '../../utils/apiCall';
+import { authorsThunk } from '../../store/author/thunk';
 
 export const Courses = ({ courses }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		ApiCall.get(`/authors/all`).then(({ result }) =>
-			dispatch(getAuthors(result))
-		);
+		dispatch(authorsThunk());
 	}, []);
 
 	const state = useSelector((state) => state);

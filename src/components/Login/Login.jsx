@@ -3,9 +3,8 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useIsMount } from '../../hooks/useIsMount';
 import { Button } from '../Button';
-import { login } from '../../store/user/actions';
-import { ApiCall } from '../../utils/apiCall';
 import { ADMIN_EMAIL, ADMIN_PASSWORD } from '../../config';
+import { userLoginThunk } from '../../store/user/thunk';
 
 export const Login = () => {
 	const [credentials, setCredentials] = useState({
@@ -21,14 +20,7 @@ export const Login = () => {
 
 	useEffect(() => {
 		if (!isMount) {
-			ApiCall.post(`/login`, credentials)
-				.then((data) => {
-					localStorage.setItem('coursesToken', data.result);
-					localStorage.setItem('isAdmin', isAdmin.toString());
-					dispatch(login(data, isAdmin));
-				})
-				.then(() => history.push('/courses'))
-				.catch((error) => console.log(error));
+			dispatch(userLoginThunk(credentials, isAdmin, history));
 		}
 	}, [submitted]);
 

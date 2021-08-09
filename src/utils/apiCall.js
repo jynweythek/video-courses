@@ -1,6 +1,6 @@
 import { API } from '../config';
 
-export const ApiCall = (function () {
+export const ApiCall = (() => {
 	const makeRequestOptions = (url, method, data = {}) => {
 		const requestOptions = {
 			method: method,
@@ -17,11 +17,11 @@ export const ApiCall = (function () {
 		return requestOptions;
 	};
 
-	function sendRequest(url, method, data) {
+	const sendRequest = (url, method, data) => {
 		return fetch(`${API}${url}`, makeRequestOptions(url, method, data)).then(
 			(response) => response.json()
 		);
-	}
+	};
 
 	return {
 		get: (url) => sendRequest(url, 'GET'),
