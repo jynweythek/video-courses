@@ -6,7 +6,6 @@ import { Button } from '../Button';
 import { login } from '../../store/user/actions';
 import { ApiCall } from '../../utils/apiCall';
 import { ADMIN_EMAIL, ADMIN_PASSWORD } from '../../config';
-import { thunkUser } from '../../store/user/thunk';
 
 export const Login = () => {
 	const [credentials, setCredentials] = useState({
@@ -22,13 +21,12 @@ export const Login = () => {
 
 	useEffect(() => {
 		if (!isMount) {
-			dispatch(thunkUser(credentials, isAdmin))
-				// ApiCall.post(`/login`, credentials)
-				// 	.then((data) => {
-				// 		localStorage.setItem('coursesToken', data.result);
-				// 		localStorage.setItem('isAdmin', isAdmin.toString());
-				// 		dispatch(login(data, isAdmin));
-				// 	})
+			ApiCall.post(`/login`, credentials)
+				.then((data) => {
+					localStorage.setItem('coursesToken', data.result);
+					localStorage.setItem('isAdmin', isAdmin.toString());
+					dispatch(login(data, isAdmin));
+				})
 				.then(() => history.push('/courses'))
 				.catch((error) => console.log(error));
 		}
