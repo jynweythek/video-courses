@@ -1,13 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Button } from '../Button';
-import { useDispatch } from 'react-redux';
-import { deleteCourse } from '../../store/courses/actionCreators';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteCourse } from '../../store/courses/actions';
 
 export const CourseCard = (course) => {
 	const dispatch = useDispatch();
+	const history = useHistory();
+	const state = useSelector((state) => state);
+
 	const handleUpdateCourse = (course, event) => {
 		event.preventDefault();
+		history.push(`/update/${course.id}`);
 	};
 
 	const handleDeleteCourse = (course, event) => {
@@ -36,14 +40,18 @@ export const CourseCard = (course) => {
 				<Link to={{ pathname: `/courses/${course.id}`, state: course }}>
 					Show course
 				</Link>
-				<Button
-					text={'Update'}
-					onClick={(e) => handleUpdateCourse(course, e)}
-				/>
-				<Button
-					text={'Delete'}
-					onClick={(e) => handleDeleteCourse(course, e)}
-				/>
+				{state['user']['isAdmin'] ? (
+					<>
+						<Button
+							text={'Update'}
+							onClick={(e) => handleUpdateCourse(course, e)}
+						/>
+						<Button
+							text={'Delete'}
+							onClick={(e) => handleDeleteCourse(course, e)}
+						/>
+					</>
+				) : null}
 			</div>
 		</div>
 	);

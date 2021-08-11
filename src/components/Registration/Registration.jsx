@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useIsMount } from '../../hooks/useIsMount';
 import { Button } from '../Button';
-import { ApiCall } from '../../utils/apiCall';
+import { userRegisterThunk } from '../../store/user/thunk';
 
 export const Registration = () => {
 	const [credentials, setCredentials] = useState({
@@ -12,12 +13,12 @@ export const Registration = () => {
 	});
 	const [submitted, setSubmitted] = useState(false);
 	const history = useHistory();
-
+	const dispatch = useDispatch();
 	const isMount = useIsMount();
 
 	useEffect(() => {
 		if (!isMount) {
-			ApiCall.post(`/register`, credentials).then(() => history.push('/login'));
+			dispatch(userRegisterThunk(credentials, history));
 		}
 	}, [submitted]);
 

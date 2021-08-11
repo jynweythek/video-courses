@@ -5,6 +5,7 @@ const initialState = {
 	name: '',
 	email: '',
 	token: '',
+	isAdmin: false,
 };
 
 export function userReducer(state = initialState, action) {
@@ -18,9 +19,17 @@ export function userReducer(state = initialState, action) {
 				name: action.payload.name,
 				email: action.payload.email,
 				token: action.payload.token,
+				isAdmin: action.isAdmin,
 			};
 		case LOGOUT:
-			return { ...state, isAuth: false, name: '', email: '', token: '' };
+			return {
+				...state,
+				isAuth: false,
+				name: '',
+				email: '',
+				token: '',
+				isAdmin: false,
+			};
 		default:
 			return state;
 	}

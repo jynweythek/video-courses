@@ -32,7 +32,13 @@ export const CourseInfo = () => {
 					<strong>Created:</strong> {location.state.creationDate}
 				</p>
 				<p>
-					<strong>Authors:</strong> {location.state.authors}
+					<strong>Authors: </strong>
+					{location.state.authors.authors.map(({ name }, index) => {
+						if (index !== location.state.authors.authors.length - 1) {
+							return name.concat(', ');
+						}
+						return name;
+					})}
 				</p>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from '../Button';
-import { logout } from '../../store/user/actionCreators';
+import { logout } from '../../store/user/actions';
 import { useDispatch } from 'react-redux';
 
 export const Logout = ({ text }) => {
@@ -11,6 +11,7 @@ export const Logout = ({ text }) => {
 	const handleClick = (e) => {
 		e.preventDefault();
 		localStorage.removeItem('coursesToken');
+		localStorage.removeItem('isAdmin');
 		dispatch(logout());
 		history.push('/login');
 	};

@@ -5,21 +5,20 @@ import { Header } from './components/Header/Header';
 import { Courses } from './components/Courses/Courses';
 import { Registration } from './components/Registration/Registration';
 import { Login } from './components/Login/Login';
-import { CreateCourse } from './components/CreateCourse/CreateCourse';
+import { CourseForm } from './components/CourseForm/CourseForm';
 import { Search } from './components/Search/Search';
 import { CourseInfo } from './components/CourseInfo/CourseInfo';
-import { getCourses } from './store/courses/actionCreators';
-import { ApiCall } from './utils/apiCall';
+import { UpdateCourse } from './components/UpdateCourse/UpdateCourse';
+import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import './App.css';
+import { coursesThunk } from './store/courses/thunk';
 
 function App() {
 	const [courses, setCourses] = useState([]);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		ApiCall.get(`/courses/all`).then(({ result }) =>
-			dispatch(getCourses(result))
-		);
+		dispatch(coursesThunk());
 	}, []);
 
 	const state = useSelector((state) => state);
@@ -44,7 +43,7 @@ function App() {
 					<Registration />
 				</Route>
 				<Route exact path='/courses/add'>
-					<CreateCourse courses={courses} setCourses={setCourses} />
+					<CourseForm courses={courses} setCourses={setCourses} />
 				</Route>
 				<Route path='/courses/:id'>
 					<CourseInfo />
@@ -52,6 +51,12 @@ function App() {
 				<Route path='/courses'>
 					<Courses />
 				</Route>
+				<PrivateRoute
+					exact
+					path='/update/:id'
+					component={UpdateCourse}
+					isAdmin={state['user']['isAdmin']}
+				/>
 			</Switch>
 		</div>
 	);
