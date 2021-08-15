@@ -119,6 +119,7 @@ export const CourseForm = ({ courses, setCourses }) => {
 							? courses.map((course) => course.description)
 							: newCourse.description
 					}
+					data-testid='textarea'
 				/>
 			</div>
 			<div className='add-authors container'>
@@ -147,7 +148,10 @@ export const CourseForm = ({ courses, setCourses }) => {
 					</div>
 				</div>
 				<div className='details'>
-					<div className='authors'>
+					<div
+						key={courses.length ? courses.map((course) => course.id) : null}
+						className='authors'
+					>
 						<h3>Authors</h3>
 						{fetchedAuthors.length > 0
 							? fetchedAuthors.map((fetchedAuthor) => {
@@ -179,7 +183,7 @@ export const CourseForm = ({ courses, setCourses }) => {
 										>
 											<div className='author-wrapper' key={courseAuthor.id}>
 												<p>{courseAuthor.name}</p>
-												<Button text={'Delete author'} />
+												<Button dataTestid='delete' text={'Delete author'} />
 											</div>
 										</form>
 									);
