@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const Button = ({ text, author, onClick }) => {
+export const Button = ({ text, author, onClick, dataTestid }) => {
 	return (
-		<button data-author={author} onClick={onClick}>
+		<button data-author={author} onClick={onClick} data-testid={dataTestid}>
 			{text}
 		</button>
 	);
